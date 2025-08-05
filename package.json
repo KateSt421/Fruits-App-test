@@ -3,15 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://katest421.github.io/Fruits-App-test",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "ggh-pages -d dist"
+    "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://katest421.github.io/Fruits-App-test",
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
     "@reduxjs/toolkit": "^2.8.2",
