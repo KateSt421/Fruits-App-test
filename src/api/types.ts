@@ -15,7 +15,7 @@ export interface Fruit {
   nutritions: Nutrition;
   isLiked?: boolean;
   isUserCreated?: boolean;
-  imageUrl?: string | null; // Изменяем тип на string | null | undefined
+  imageUrl?: string | null;
 }
 
 export interface UserFruit extends Omit<Fruit, 'id' | 'isUserCreated'> {

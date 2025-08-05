@@ -1,0 +1,88 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  background: #4299e1;
+    color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.backButton:hover {
+  background: #3182ce;
+  transform: translateY(-1px);
+}
+
+.backButton:active {
+  transform: translateY(0);
+}
+.title {
+  margin: 0;
+  font-size: 24px;
+}
+
+@media (min-width: 768px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .formContainer {
+    padding: 30px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    padding: 30px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 15px;
+  }
+
+  .header {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .backButton {
+    font-size: 14px;
+    padding: 4px 8px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .formContainer {
+    padding: 15px;
+  }
+}
+

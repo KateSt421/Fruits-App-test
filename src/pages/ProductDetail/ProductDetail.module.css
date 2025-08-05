@@ -1,0 +1,168 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #4299e1;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.backLink:hover {
+  background-color: #3182ce;
+  text-decoration: none;
+}
+
+.editLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4299e1;
+  text-decoration: none;
+}
+
+.editLink:hover {
+  text-decoration: underline;
+}
+
+.detailCard {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.imageContainer {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 400px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.name {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #2d3748;
+}
+
+.meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  color: #718096;
+}
+
+.family, .genus, .order {
+  background: #f7fafc;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.nutritionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.nutritionItem {
+  background: #f7fafc;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.nutritionLabel {
+  display: block;
+  font-size: 0.9rem;
+  color: #718096;
+  margin-bottom: 5px;
+}
+
+.nutritionValue {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+}
+
+.notFound {
+  text-align: center;
+  padding: 40px;
+}
+
+.editLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background-color: #ffffff;
+  color: #4299e1;
+  border: 1px solid #4299e1;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.editLink:hover {
+  background-color: #ebf8ff;
+  transform: translateY(-1px);
+  text-decoration: none;
+}
+
+.editLink:active {
+  transform: translateY(0);
+}
+
+.editLink svg {
+  width: 16px;
+  height: 16px;
+}
+
+@media (max-width: 768px) {
+  .detailCard {
+    grid-template-columns: 1fr;
+  }
+  
+  .imageContainer {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .editLink {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}
