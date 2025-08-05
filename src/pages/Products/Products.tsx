@@ -10,7 +10,7 @@ import { Heart, Search } from 'lucide-react';
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { data: apiFruits, isLoading } = useGetAllFruitsQuery();
+  const { data: apiFruits, isLoading, error } = useGetAllFruitsQuery({});
   const { fruits, userFruits, likedFruits, filter, searchQuery } = useAppSelector((state) => state.fruits);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +47,11 @@ const ProductsPage: React.FC = () => {
 
   if (isLoading) {
     return <div className={styles.loading}>Loading fruits...</div>;
+  }
+
+  if (error) {
+    console.error('Failed to load fruits:', error);
+    return <div className={styles.error}>Failed to load fruits. Please try again later.</div>;
   }
 
   return (

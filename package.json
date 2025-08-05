@@ -9,7 +9,7 @@
     "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build",
+    "predeploy": "npm run build && cp public/_redirects dist/_redirects",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

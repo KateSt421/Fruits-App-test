@@ -11,7 +11,9 @@ export const store = configureStore({
     fruits: fruitsReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(fruitsApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: false
+    }).concat(fruitsApi.middleware)
 });
 
 setupListeners(store.dispatch);
