@@ -3,10 +3,11 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/Fruits-App-test/', // Должно точно совпадать с именем репозитория
+  base: '/Fruits-App-test/',
   build: {
     outDir: 'dist',
-    emptyOutDir: true
+    emptyOutDir: true,
+    assetsDir: 'assets',
   },
   server: {
     proxy: {
