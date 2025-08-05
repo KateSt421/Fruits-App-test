@@ -9,9 +9,13 @@ import CreateProductPage from './pages/CreateProduct/CreateProduct';
 import EditProductPage from './pages/EditProduct/EditProduct';
 
 const App: React.FC = () => {
+  const basename = import.meta.env.PROD
+    ? '/Fruits-App-test'
+    : '/';
+
   return (
     <Provider store={store}>
-      <Router>
+      <Router basename={basename}>
         <Layout>
           <Routes>
             <Route path="/" element={<ProductsPage />} />
