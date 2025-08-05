@@ -9,8 +9,9 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d docs"
+    "deploy": "ggh-pages -d dist"
   },
+  "homepage": "https://katest421.github.io/Fruits-App-test",
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
     "@reduxjs/toolkit": "^2.8.2",
@@ -35,6 +36,5 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4"
-  },
-  "homepage": "https://katest421.github.io/Fruits-App-test"
+  }
 }

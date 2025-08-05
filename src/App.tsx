@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { store } from './store/store';
-import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
 import ProductsPage from './pages/Products/Products';
 import ProductDetailPage from './pages/ProductDetail/ProductDetail';
@@ -9,10 +9,9 @@ import CreateProductPage from './pages/CreateProduct/CreateProduct';
 import EditProductPage from './pages/EditProduct/EditProduct';
 
 const App: React.FC = () => {
-
   return (
     <Provider store={store}>
-      <Router>
+      <Router basename="/Fruits-App-test"> {/* Добавьте basename */}
         <Layout>
           <Routes>
             <Route path="/" element={<ProductsPage />} />
