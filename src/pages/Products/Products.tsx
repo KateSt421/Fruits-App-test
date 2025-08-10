@@ -10,7 +10,7 @@ import { Heart, Search } from 'lucide-react';
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { data: apiFruits, isLoading, error } = useGetAllFruitsQuery();
+  const { data: apiFruits, isLoading, error } = useGetAllFruitsQuery({});
   const { fruits, userFruits, likedFruits, filter, searchQuery } = useAppSelector((state) => state.fruits);
 
   const [currentPage, setCurrentPage] = useState(1);
