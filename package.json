@@ -1,15 +1,15 @@
 {
-  "name": "fruits-app-test",
+  "name": "meals-app-test",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://katest421.github.io/Fruits-App-test",
+  "homepage": "https://katest421.github.io/Meals-App-test",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "predeploy": "npm run build && cp public/_redirects dist/_redirects",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
