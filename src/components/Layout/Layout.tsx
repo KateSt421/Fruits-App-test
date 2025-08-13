@@ -11,15 +11,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className={styles.container}>
       <header className={styles.header}>
         <div className={styles.logo}>
-          <Link to="/">Fruits App</Link>
+          <Link to="/">Meals App</Link>
         </div>
 
         <nav className={styles.nav}>
           <Link to="/products" className={styles.navLink}>
-            All Fruits
+            All Meals
           </Link>
           <Link to="/create-product" className={styles.navLink}>
-            Add New Fruit
+            Add New Meal
           </Link>
         </nav>
 
@@ -34,7 +34,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </main>
 
       <footer className={styles.footer}>
-        <p>Fruits App &bull; Developed by Katsiaryna Stankevich &copy; {new Date().getFullYear()}</p>
+        <p>Meals App &bull; Developed by Katsiaryna Stankevich &copy; {new Date().getFullYear()}</p>
       </footer>
     </div>
   );

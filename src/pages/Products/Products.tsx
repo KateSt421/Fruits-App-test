@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { useGetAllFruitsQuery } from '../../api/fruitsApi';
-import { setFruits, setFilter, setSearchQuery } from '../../store/slices/fruitsSlice';
-import FruitCard from '../../components/FruitCard/FruitCard';
+import { useGetPopularMealsQuery } from '../../api/mealsApi';
+import { setMeals, setFilter, setSearchQuery } from '../../store/slices/mealsSlice';
+import MealCard from '../../components/MealCard/MealCard';
 import styles from './Products.module.css';
 import { Link } from 'react-router-dom';
 import Pagination from '../../components/Pagination/Pagination';
@@ -10,24 +10,26 @@ import { Heart, Search } from 'lucide-react';
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { data: apiFruits, isLoading, error } = useGetAllFruitsQuery({});
-  const { fruits, userFruits, likedFruits, filter, searchQuery } = useAppSelector((state) => state.fruits);
+  const { data: apiMeals, isLoading, error } = useGetPopularMealsQuery();
+  const { meals, userMeals, likedMeals, filter, searchQuery, removedMeals } = useAppSelector((state) => state.meals);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
 
   useEffect(() => {
-    if (apiFruits) {
-      dispatch(setFruits(apiFruits));
+    if (apiMeals) {
+      dispatch(setMeals(apiMeals));
     }
-  }, [apiFruits, dispatch]);
+  }, [apiMeals, dispatch]);
 
-  const allFruits = [...fruits, ...userFruits];
-  const filteredFruits = allFruits.filter(fruit => {
-    const matchesFilter = filter === 'all' || likedFruits.includes(fruit.id as number);
-    const matchesSearch = fruit.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      fruit.family.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesFilter && matchesSearch;
+  const allMeals = [...meals, ...userMeals];
+  const filteredMeals = allMeals.filter(meal => {
+    const isRemoved = removedMeals.includes(meal.idMeal);
+    const matchesFilter = filter === 'all' || likedMeals.includes(meal.idMeal);
+    const matchesSearch = meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      meal.strCategory.toLowerCase().includes(searchQuery.toLowerCase());
+
+    return !isRemoved && matchesFilter && matchesSearch;
   });
 
   const handleFilterChange = (newFilter: 'all' | 'liked') => {
@@ -37,8 +39,8 @@ const ProductsPage: React.FC = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentFruits = filteredFruits.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(filteredFruits.length / itemsPerPage);
+  const currentMeals = filteredMeals.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value));
@@ -46,12 +48,12 @@ const ProductsPage: React.FC = () => {
   };
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading fruits...</div>;
+    return <div className={styles.loading}>Loading meals...</div>;
   }
 
   if (error) {
-    console.error('Failed to load fruits:', error);
-    return <div className={styles.error}>Failed to load fruits. Please try again later.</div>;
+    console.error('Failed to load meals:', error);
+    return <div className={styles.error}>Failed to load meals. Please try again later.</div>;
   }
 
   return (
@@ -61,7 +63,7 @@ const ProductsPage: React.FC = () => {
           <Search className={styles.searchIcon} />
           <input
             type="text"
-            placeholder="Search fruits..."
+            placeholder="Search meals..."
             value={searchQuery}
             onChange={handleSearchChange}
             className={styles.searchInput}
@@ -73,7 +75,7 @@ const ProductsPage: React.FC = () => {
             onClick={() => handleFilterChange('all')}
             className={filter === 'all' ? styles.active : ''}
           >
-            All Fruits
+            All Meals
           </button>
           <button
             onClick={() => handleFilterChange('liked')}
@@ -84,22 +86,23 @@ const ProductsPage: React.FC = () => {
         </div>
 
         <Link to="/create-product" className={styles.addButton}>
-          Add New Fruit
+          Add New Meal
         </Link>
       </div>
 
-      {currentFruits.length === 0 ? (
+      {currentMeals.length === 0 ? (
         <div className={styles.noResults}>
-          No fruits found. {filter === 'liked' ? 'Try liking some fruits first.' : 'Try a different search.'}
+          No meals found. {filter === 'liked' ? 'Try liking some meals first.' : 'Try a different search.'}
         </div>
       ) : (
         <>
-          <div className={styles.fruitsGrid}>
-            {currentFruits.map((fruit) => (
-              <FruitCard
-                key={fruit.id}
-                fruit={fruit}
-                isLiked={likedFruits.includes(fruit.id as number)}
+          <div className={styles.mealsGrid}>
+            {currentMeals.map((meal) => (
+              <MealCard
+                key={meal.idMeal}
+                meal={meal}
+                isLiked={likedMeals.includes(meal.idMeal)}
+              // Убрали showDeleteButton, так как он больше не нужен
               />
             ))}
           </div>
@@ -118,4 +121,3 @@ const ProductsPage: React.FC = () => {
 };
 
 export default ProductsPage;
-

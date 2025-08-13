@@ -1,19 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
-import { fruitsApi } from '../api/fruitsApi';
-import fruitsReducer from './slices/fruitsSlice';
+import { mealsApi } from '../api/mealsApi';
+import mealsReducer from './slices/mealsSlice';
 import type { TypedUseSelectorHook } from 'react-redux';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({
   reducer: {
-    [fruitsApi.reducerPath]: fruitsApi.reducer,
-    fruits: fruitsReducer,
+    [mealsApi.reducerPath]: mealsApi.reducer,
+    meals: mealsReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false
-    }).concat(fruitsApi.middleware)
+    getDefaultMiddleware().concat(mealsApi.middleware),
 });
 
 setupListeners(store.dispatch);

@@ -7,19 +7,5 @@ export default defineConfig({
     outDir: 'dist',
     emptyOutDir: true,
     assetsDir: 'assets',
-  },
-  server: {
-    proxy: {
-      '/api': {
-        target: 'https://www.fruityvice.com',
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '/api'),
-        secure: false,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'GET'
-        }
-      }
-    }
   }
 })

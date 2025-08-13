@@ -6,18 +6,18 @@ const Navbar: React.FC = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.logo}>
-        <Link to="/">Fruits App</Link>
+        <Link to="/">Meal App</Link>
       </div>
 
       <ul className={styles.navLinks}>
         <li>
           <Link to="/products" className={styles.navLink}>
-            All Fruits
+            All Meals
           </Link>
         </li>
         <li>
           <Link to="/create-product" className={styles.navLink}>
-            Add New Fruit
+            Add New Meal
           </Link>
         </li>
       </ul>
