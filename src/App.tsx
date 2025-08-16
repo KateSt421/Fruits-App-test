@@ -1,15 +1,15 @@
-import React from 'react'
-import { Provider } from 'react-redux'
-import { store } from './store/store'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Layout from './components/Layout/Layout'
-import ProductsPage from './pages/Products/Products'
-import ProductDetailPage from './pages/ProductDetail/ProductDetail'
-import CreateProductPage from './pages/CreateProduct/CreateProduct'
-import EditProductPage from './pages/EditProduct/EditProduct'
+import React from "react";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout/Layout";
+import ProductsPage from "./pages/Products/Products";
+import ProductDetailPage from "./pages/ProductDetail/ProductDetail";
+import CreateProductPage from "./pages/CreateProduct/CreateProduct";
+import EditProductPage from "./pages/EditProduct/EditProduct";
 
 const App: React.FC = () => {
-  const basename = import.meta.env.PROD ? '/Fruits-App-test' : '/'
+  const basename = import.meta.env.PROD ? "/Meals-App-test" : "/";
 
   return (
     <Provider store={store}>
@@ -25,7 +25,7 @@ const App: React.FC = () => {
         </Layout>
       </Router>
     </Provider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
