@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { useGetPopularMealsQuery } from '../../api/mealsApi';
-import { setMeals, setFilter, setSearchQuery } from '../../store/slices/mealsSlice';
-import MealCard from '../../components/MealCard/MealCard';
-import styles from './Products.module.css';
-import { Link } from 'react-router-dom';
-import Pagination from '../../components/Pagination/Pagination';
-import { Heart, Search } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../store/store";
+import { useGetPopularMealsQuery } from "../../api/mealsApi";
+import {
+  setMeals,
+  setFilter,
+  setSearchQuery,
+} from "../../store/slices/mealsSlice";
+import MealCard from "../../components/MealCard/MealCard";
+import styles from "./Products.module.css";
+import { Link } from "react-router-dom";
+import Pagination from "../../components/Pagination/Pagination";
+import { Heart, Search } from "lucide-react";
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data: apiMeals, isLoading, error } = useGetPopularMealsQuery();
-  const { meals, userMeals, likedMeals, filter, searchQuery, removedMeals } = useAppSelector((state) => state.meals);
+  const { meals, userMeals, likedMeals, filter, searchQuery, removedMeals } =
+    useAppSelector((state) => state.meals);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12;
@@ -23,16 +28,20 @@ const ProductsPage: React.FC = () => {
   }, [apiMeals, dispatch]);
 
   const allMeals = [...meals, ...userMeals];
-  const filteredMeals = allMeals.filter(meal => {
+  const filteredMeals = allMeals.filter((meal) => {
     const isRemoved = removedMeals.includes(meal.idMeal);
-    const matchesFilter = filter === 'all' || likedMeals.includes(meal.idMeal);
-    const matchesSearch = meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    const matchesFilter = filter === "all" || likedMeals.includes(meal.idMeal);
+
+    // Поиск включается только если введено 3+ символа
+    const matchesSearch =
+      searchQuery.length < 3 ||
+      meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()) ||
       meal.strCategory.toLowerCase().includes(searchQuery.toLowerCase());
 
     return !isRemoved && matchesFilter && matchesSearch;
   });
 
-  const handleFilterChange = (newFilter: 'all' | 'liked') => {
+  const handleFilterChange = (newFilter: "all" | "liked") => {
     dispatch(setFilter(newFilter));
     setCurrentPage(1);
   };
@@ -52,8 +61,12 @@ const ProductsPage: React.FC = () => {
   }
 
   if (error) {
-    console.error('Failed to load meals:', error);
-    return <div className={styles.error}>Failed to load meals. Please try again later.</div>;
+    console.error("Failed to load meals:", error);
+    return (
+      <div className={styles.error}>
+        Failed to load meals. Please try again later.
+      </div>
+    );
   }
 
   return (
@@ -72,14 +85,14 @@ const ProductsPage: React.FC = () => {
 
         <div className={styles.filterButtons}>
           <button
-            onClick={() => handleFilterChange('all')}
-            className={filter === 'all' ? styles.active : ''}
+            onClick={() => handleFilterChange("all")}
+            className={filter === "all" ? styles.active : ""}
           >
             All Meals
           </button>
           <button
-            onClick={() => handleFilterChange('liked')}
-            className={filter === 'liked' ? styles.active : ''}
+            onClick={() => handleFilterChange("liked")}
+            className={filter === "liked" ? styles.active : ""}
           >
             <Heart size={16} /> Liked
           </button>
@@ -92,7 +105,12 @@ const ProductsPage: React.FC = () => {
 
       {currentMeals.length === 0 ? (
         <div className={styles.noResults}>
-          No meals found. {filter === 'liked' ? 'Try liking some meals first.' : 'Try a different search.'}
+          No meals found.{" "}
+          {filter === "liked"
+            ? "Try liking some meals first."
+            : searchQuery.length < 3
+            ? "Enter at least 3 characters to search."
+            : "Try a different search."}
         </div>
       ) : (
         <>
@@ -102,7 +120,6 @@ const ProductsPage: React.FC = () => {
                 key={meal.idMeal}
                 meal={meal}
                 isLiked={likedMeals.includes(meal.idMeal)}
-              // Убрали showDeleteButton, так как он больше не нужен
               />
             ))}
           </div>
