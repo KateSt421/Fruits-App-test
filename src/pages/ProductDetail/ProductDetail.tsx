@@ -1,14 +1,14 @@
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { useAppSelector } from '../../store/store';
-import { useGetMealByIdQuery } from '../../api/mealsApi';
-import styles from './ProductDetail.module.css';
-import { ArrowLeft, Edit } from 'lucide-react';
+import React from "react";
+import { useParams, Link } from "react-router-dom";
+import { useAppSelector } from "../../store/store";
+import { useGetMealByIdQuery } from "../../api/mealsApi";
+import styles from "./ProductDetail.module.css";
+import { ArrowLeft, Edit } from "lucide-react";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { data: apiMeal, isLoading } = useGetMealByIdQuery(id || '', {
-    skip: !id
+  const { data: apiMeal, isLoading } = useGetMealByIdQuery(id || "", {
+    skip: !id,
   });
 
   const userMeals = useAppSelector((state) => state.meals.userMeals);
@@ -36,9 +36,14 @@ const ProductDetailPage: React.FC = () => {
     const ingredient = meal[`strIngredient${i}` as keyof typeof meal];
     const measure = meal[`strMeasure${i}` as keyof typeof meal];
     if (ingredient && ingredient.trim()) {
-      ingredients.push({ ingredient, measure: measure || '' });
+      ingredients.push({ ingredient, measure: measure || "" });
     }
   }
+
+  // Исправление: проверка на наличие инструкций
+  const instructions = meal.strInstructions
+    ? meal.strInstructions.split("\n")
+    : ["No instructions available"];
 
   return (
     <div className={styles.container}>
@@ -47,11 +52,10 @@ const ProductDetailPage: React.FC = () => {
           <ArrowLeft size={16} /> Back to all meals
         </Link>
 
-        {!apiMeal && (
-          <Link to={`/edit-product/${meal.idMeal}`} className={styles.editLink}>
-            <Edit size={16} /> Edit
-          </Link>
-        )}
+        {/* Разрешаем редактирование всех блюд, а не только пользовательских */}
+        <Link to={`/edit-product/${meal.idMeal}`} className={styles.editLink}>
+          <Edit size={16} /> Edit
+        </Link>
       </div>
 
       <div className={styles.detailCard}>
@@ -61,7 +65,7 @@ const ProductDetailPage: React.FC = () => {
             alt={meal.strMeal}
             className={styles.image}
             onError={(e) => {
-              e.currentTarget.src = '/default-meal.jpg';
+              e.currentTarget.src = "/default-meal.jpg";
             }}
           />
         </div>
@@ -76,24 +80,30 @@ const ProductDetailPage: React.FC = () => {
             )}
           </div>
 
-          <div className={styles.section}>
-            <h3>Ingredients</h3>
-            <ul className={styles.ingredientsList}>
-              {ingredients.map((item, index) => (
-                <li key={index} className={styles.ingredientItem}>
-                  <span className={styles.ingredientName}>{item.ingredient}</span>
-                  <span className={styles.ingredientMeasure}>{item.measure}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {ingredients.length > 0 && (
+            <div className={styles.section}>
+              <h3>Ingredients</h3>
+              <ul className={styles.ingredientsList}>
+                {ingredients.map((item, index) => (
+                  <li key={index} className={styles.ingredientItem}>
+                    <span className={styles.ingredientName}>
+                      {item.ingredient}
+                    </span>
+                    <span className={styles.ingredientMeasure}>
+                      {item.measure}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           <div className={styles.section}>
             <h3>Instructions</h3>
             <div className={styles.instructions}>
-              {meal.strInstructions.split('\n').map((paragraph, i) => (
-                <p key={i}>{paragraph}</p>
-              ))}
+              {instructions.map(
+                (paragraph, i) => paragraph.trim() && <p key={i}>{paragraph}</p>
+              )}
             </div>
           </div>
 

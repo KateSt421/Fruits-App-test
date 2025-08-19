@@ -1,16 +1,23 @@
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAppSelector } from '../../store/store';
-import MealForm from '../../components/MealForm/MealForm';
-import styles from './EditProduct.module.css';
-import { ArrowLeft } from 'lucide-react';
+import React from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../store/store";
+import MealForm from "../../components/MealForm/MealForm";
+import styles from "./EditProduct.module.css";
+import { ArrowLeft } from "lucide-react";
 
 const EditProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const userMeals = useAppSelector((state) => state.meals.userMeals);
-  const mealToEdit = userMeals.find((meal) => meal.idMeal === id);
+  const meals = useAppSelector((state) => state.meals.meals);
+  const editedMeals = useAppSelector((state) => state.meals.editedMeals);
+
+  // Ищем блюдо во всех источниках
+  const mealToEdit =
+    userMeals.find((meal) => meal.idMeal === id) ||
+    editedMeals.find((meal) => meal.idMeal === id) ||
+    meals.find((meal) => meal.idMeal === id);
 
   const handleSuccess = () => {
     navigate(`/products/${id}`);
@@ -20,7 +27,10 @@ const EditProductPage: React.FC = () => {
     return (
       <div className={styles.container}>
         <div className={styles.header}>
-          <button onClick={() => navigate('/products')} className={styles.backButton}>
+          <button
+            onClick={() => navigate("/products")}
+            className={styles.backButton}
+          >
             <ArrowLeft size={18} /> Back to all meals
           </button>
           <h1>Meal not found</h1>
@@ -32,7 +42,10 @@ const EditProductPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button onClick={() => navigate(`/products/${id}`)} className={styles.backButton}>
+        <button
+          onClick={() => navigate(`/products/${id}`)}
+          className={styles.backButton}
+        >
           <ArrowLeft size={18} /> Back to meal details
         </button>
         <h1 className={styles.title}>Edit {mealToEdit.strMeal}</h1>
@@ -46,4 +59,3 @@ const EditProductPage: React.FC = () => {
 };
 
 export default EditProductPage;
-

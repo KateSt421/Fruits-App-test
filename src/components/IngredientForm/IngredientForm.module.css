@@ -1,0 +1,76 @@
+/* components/IngredientForm/IngredientForm.module.css */
+.ingredientsSection {
+  margin-bottom: 24px;
+}
+
+.ingredientRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+}
+
+.ingredientInput,
+.measureInput {
+  flex: 1;
+}
+
+.ingredientInput input,
+.measureInput input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.ingredientInput input:focus,
+.measureInput input:focus {
+  outline: none;
+  border-color: #4299e1;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.error {
+  border-color: #e53e3e;
+}
+
+.error:focus {
+  border-color: #e53e3e;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+}
+
+.errorMessage {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  margin-top: 6px;
+  display: block;
+}
+
+.removeIngredient {
+  background: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  width: 30px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.removeIngredient:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+.addIngredient {
+  background: #48bb78;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-top: 8px;
+}
