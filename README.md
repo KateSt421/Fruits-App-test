@@ -1,163 +1,168 @@
-# 🍏 FruitVice App
+# 🍽️ MealHub App
 
 [![React](https://img.shields.io/badge/React-18-blue)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-4.0-orange)](https://vitejs.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Redux](https://img.shields.io/badge/Redux_Toolkit-1.9-purple)](https://redux-toolkit.js.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0-orange)](https://vitejs.dev/)
 
-React-приложение для просмотра информации о фруктах с использованием API FruityVice. Позволяет просматривать, добавлять и удалять фрукты, а также добавлять их в избранное.
+React-приложение для просмотра, управления и создания рецептов блюд с использованием TheMealDB API. Позволяет просматривать популярные блюда, создавать собственные рецепты, редактировать и управлять избранным.
 
 ![Пример интерфейса](./src/assets/images/screenshot.jpg)
 
 ## 🌟 Особенности
 
-- Просмотр списка фруктов с пагинацией
-- Поиск и фильтрация фруктов
-- Добавление/редактирование пользовательских фруктов
-- Детальная страница с информацией о каждом фрукте
-- Удаление фруктов
-- Добавление в избранное
+- Просмотр популярных блюд из API TheMealDB
+- Поиск и фильтрация блюд (по названию, категории)
+- Добавление/редактирование пользовательских блюд
+- Система лайков и избранного
+- Детальная страница с полной информацией о каждом блюде
+- Удаление блюд с подтверждением
+- Пагинация для удобной навигации
 - Адаптивный дизайн
-- Локальное хранение пользовательских фруктов
+- Локальное хранение пользовательских данных (лайки, пользовательские блюда, удаленные блюда)
+- Валидация форм с React Hook Form и Zod
 
 ## 🛠 Технологии
 
-- **Frontend**: 
+- **Frontend**:
   - React 18
-  - TypeScript
+  - TypeScript 5.0
   - Redux Toolkit + RTK Query
-  - React Hook Form + Zod для валидации
-  - Vite
-- **Стили**: 
+  - React Router DOM
+- **Валидация форм**:
+  - React Hook Form
+  - Zod (схемы валидации)
+- **Стили**:
   - CSS Modules
   - Lucide React (иконки)
-- **API**: [FruityVice API](https://www.fruityvice.com/)
+- **API**: [TheMealDB API](https://www.themealdb.com/)
+- **Сборка**: Vite 5.0
+
+## 🚀 Установка и запуск
 
 ## 🚀 Установка и запуск
 
 1. Клонируйте репозиторий:
 
-   git clone https://github.com/ваш-username/fruitvice-app.git
-   cd fruitvice-app
-   
+git clone <repository-url>
+cd meals-app-test
+
 2. Установите зависимости:
 
-npm install   
+npm install
 
 3. Запустите приложение:
 
-bash
 npm run dev
 
 4. Откройте в браузере:
 
-text
 http://localhost:5173
 
 ## 📂 Структура проекта
 
 src/
 
-├── api/              # API слои и типы
+├── api/ # API слои и типы
 
-├── assets/           # Изображения и статические файлы
+├── assets/ # Изображения и статические файлы
 
-├── components/       # UI компоненты
+├── components/ # UI компоненты
 
-├── pages/            # Страницы приложения
+├── pages/ # Страницы приложения
 
-├── store/            # Redux store
+├── store/ # Redux store
 
-├── App.tsx           # Главный компонент
+├── App.tsx # Главный компонент
 
-└── main.tsx          # Точка входа
+└── main.tsx # Точка входа
 
 ## 🎨 Компоненты
 
-- FruitCard - Карточка фрукта
+- MealCard - Карточка блюда с действиями (лайк, редактирование, удаление)
 
-- FruitForm - Форма добавления/редактирования
+- MealForm - Форма для создания и редактирования блюд с валидацией
 
-- Products - Страница списка фруктов
+- Pagination - Навигация по страницам
 
-- ProductDetail - Детальная страница фрукта
+- ConfirmationModal - Модальное окно подтверждения действий
 
-- Pagination - Компонент пагинации
+- InputField/TextAreaField - Переиспользуемые поля формы
 
-- Navbar - Навигационная панель
+- ImageUpload - Загрузка и предпросмотр изображений
+
+- IngredientForm - Динамическая форма ингредиентов
+
+## 📱 Страницы
+
+- Products - Главная страница со списком всех блюд, поиском и фильтрацией
+
+- ProductDetail - Детальная информация о блюде с ингредиентами и инструкциями
+
+- CreateProduct - Создание нового пользовательского блюда
+
+- EditProduct - Редактирование существующего блюда
 
 ## 🌐 API Endpoints
 
-- GET /fruit/all - Получить все фрукты
+- GET /search.php?s={name} - Поиск блюд по названию
 
-- GET /fruit/{id} - Получить фрукт по ID
+- GET /lookup.php?i={id} - Получение блюда по ID
 
+- GET /filter.php?c={category} - Фильтрация по категории
 
-# React + TypeScript + Vite
+- GET /categories.php - Список категорий
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- GET /random.php - Случайное блюдо
 
-Currently, two official plugins are available:
+## 💾 Локальное хранилище
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Приложение сохраняет в localStorage:
 
-## Expanding the ESLint configuration
+- Пользовательские блюда (userMeals)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Лайки (likedMeals)
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Удаленные блюда (removedMeals)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- Отредактированные API блюда (editedMeals)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🔧 Особенности реализации
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Редактирование API блюд: Возможность редактировать блюда из API с сохранением изменений
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Умный поиск: Поиск активируется только при вводе 3+ символов
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- Валидация форм: Полная валидация с кастомными сообщениями об ошибках
+
+- Оптимизация: React.memo для предотвращения лишних ререндеров
+
+- Обработка ошибок: Грациозная обработка ошибок API и изображений
+
+- Адаптивность: Полная поддержка мобильных устройств
+
+## 📝 Скрипты
+
+- npm run dev - Запуск development сервера
+
+- npm run build - Сборка production версии
+
+- npm run preview - Просмотр собранной версии
+
+- npm run lint - Запуск ESLint
+
+## 🎯 Планы развития
+
+- Добавить систему тегов
+
+- Реализовать meal planning
+
+- Добавить shopping list functionality
+
+- Интеграция с дополнительными food API
+
+- PWA поддержка
+
+- Оффлайн режим
+
+- Система рейтингов и отзывов
