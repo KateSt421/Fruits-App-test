@@ -12,9 +12,14 @@ const ProductDetailPage: React.FC = () => {
   });
 
   const userMeals = useAppSelector((state) => state.meals.userMeals);
-  const userMeal = userMeals.find((meal) => meal.idMeal === id);
+  const editedMeals = useAppSelector((state) => state.meals.editedMeals);
+  const meals = useAppSelector((state) => state.meals.meals);
 
-  const meal = apiMeal || userMeal;
+  const editedMeal = editedMeals.find((meal) => meal.idMeal === id);
+  const userMeal = userMeals.find((meal) => meal.idMeal === id);
+  const storedMeal = meals.find((meal) => meal.idMeal === id);
+
+  const meal = editedMeal || userMeal || storedMeal || apiMeal;
 
   if (isLoading) {
     return <div className={styles.loading}>Loading meal details...</div>;
@@ -40,10 +45,11 @@ const ProductDetailPage: React.FC = () => {
     }
   }
 
-  // Исправление: проверка на наличие инструкций
   const instructions = meal.strInstructions
     ? meal.strInstructions.split("\n")
     : ["No instructions available"];
+
+  const isEdited = !meal.idMeal.startsWith("user-") && editedMeal;
 
   return (
     <div className={styles.container}>
@@ -52,7 +58,6 @@ const ProductDetailPage: React.FC = () => {
           <ArrowLeft size={16} /> Back to all meals
         </Link>
 
-        {/* Разрешаем редактирование всех блюд, а не только пользовательских */}
         <Link to={`/edit-product/${meal.idMeal}`} className={styles.editLink}>
           <Edit size={16} /> Edit
         </Link>
@@ -68,6 +73,7 @@ const ProductDetailPage: React.FC = () => {
               e.currentTarget.src = "/default-meal.jpg";
             }}
           />
+          {isEdited && <div className={styles.editedBadge}>Edited</div>}
         </div>
 
         <div className={styles.details}>

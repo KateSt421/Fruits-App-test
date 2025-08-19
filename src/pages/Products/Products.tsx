@@ -28,11 +28,11 @@ const ProductsPage: React.FC = () => {
   }, [apiMeals, dispatch]);
 
   const allMeals = [...meals, ...userMeals];
+
   const filteredMeals = allMeals.filter((meal) => {
     const isRemoved = removedMeals.includes(meal.idMeal);
     const matchesFilter = filter === "all" || likedMeals.includes(meal.idMeal);
 
-    // Поиск включается только если введено 3+ символа
     const matchesSearch =
       searchQuery.length < 3 ||
       meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()) ||

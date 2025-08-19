@@ -1,6 +1,5 @@
-// src/components/ConfirmationModal/ConfirmationModal.tsx
-import React from 'react';
-import styles from './ConfirmationModal.module.css';
+import React from "react";
+import styles from "./ConfirmationModal.module.css";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -18,8 +17,8 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   onConfirm,
   title,
   message,
-  confirmText = 'Delete',
-  cancelText = 'Cancel',
+  confirmText = "Delete",
+  cancelText = "Cancel",
 }) => {
   if (!isOpen) return null;
 

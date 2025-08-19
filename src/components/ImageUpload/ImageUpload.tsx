@@ -1,7 +1,6 @@
-// components/ImageUpload/ImageUpload.tsx
-import React from 'react';
-import { Upload } from 'lucide-react';
-import styles from './ImageUpload.module.css';
+import React from "react";
+import { Upload } from "lucide-react";
+import styles from "./ImageUpload.module.css";
 
 interface ImageUploadProps {
   previewImage: string | null;
@@ -39,9 +38,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           onChange={onImageChange}
         />
       </label>
-      {error && (
-        <span className={styles.errorMessage}>{error}</span>
-      )}
+      {error && <span className={styles.errorMessage}>{error}</span>}
     </div>
   );
 };

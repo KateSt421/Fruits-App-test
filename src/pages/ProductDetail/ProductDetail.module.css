@@ -47,7 +47,7 @@
   background: white;
   border-radius: 8px;
   padding: 30px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .imageContainer {
@@ -76,7 +76,9 @@
   color: #718096;
 }
 
-.family, .genus, .order {
+.family,
+.genus,
+.order {
   background: #f7fafc;
   padding: 5px 10px;
   border-radius: 4px;
@@ -150,11 +152,24 @@
   height: 16px;
 }
 
+.editedBadge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #4299e1;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  z-index: 10;
+}
+
 @media (max-width: 768px) {
   .detailCard {
     grid-template-columns: 1fr;
   }
-  
+
   .imageContainer {
     height: 300px;
   }

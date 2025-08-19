@@ -8,10 +8,9 @@ interface MealsState {
   filter: "all" | "liked";
   searchQuery: string;
   removedMeals: string[];
-  editedMeals: Meal[]; // Добавляем для хранения отредактированных API блюд
+  editedMeals: Meal[];
 }
 
-// Функция для загрузки из localStorage
 const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
   try {
     const item = localStorage.getItem(key);
@@ -36,9 +35,16 @@ const mealsSlice = createSlice({
   initialState,
   reducers: {
     setMeals: (state, action: PayloadAction<Meal[]>) => {
-      state.meals = action.payload.filter(
+      const apiMeals = action.payload.filter(
         (meal) => !state.removedMeals.includes(meal.idMeal)
       );
+
+      state.meals = apiMeals.map((apiMeal) => {
+        const editedMeal = state.editedMeals.find(
+          (edited) => edited.idMeal === apiMeal.idMeal
+        );
+        return editedMeal || apiMeal;
+      });
     },
 
     addUserMeal: (state, action: PayloadAction<Omit<Meal, "idMeal">>) => {
@@ -50,23 +56,10 @@ const mealsSlice = createSlice({
       localStorage.setItem("userMeals", JSON.stringify(state.userMeals));
     },
 
-    updateUserMeal: (state, action: PayloadAction<Meal>) => {
-      const index = state.userMeals.findIndex(
-        (meal) => meal.idMeal === action.payload.idMeal
-      );
-      if (index !== -1) {
-        state.userMeals[index] = action.payload;
-        localStorage.setItem("userMeals", JSON.stringify(state.userMeals));
-      }
-    },
-
-    // Новый reducer для редактирования API блюд
-    // mealsSlice.ts - обновим updateMeal reducer
     updateMeal: (state, action: PayloadAction<Meal>) => {
       const meal = action.payload;
 
       if (meal.idMeal.startsWith("user-")) {
-        // Если это пользовательское блюдо - обновляем в userMeals
         const index = state.userMeals.findIndex(
           (m) => m.idMeal === meal.idMeal
         );
@@ -77,7 +70,6 @@ const mealsSlice = createSlice({
         }
         localStorage.setItem("userMeals", JSON.stringify(state.userMeals));
       } else {
-        // Если это API блюдо - сохраняем в editedMeals
         const existingIndex = state.editedMeals.findIndex(
           (m) => m.idMeal === meal.idMeal
         );
@@ -86,6 +78,14 @@ const mealsSlice = createSlice({
         } else {
           state.editedMeals.push(meal);
         }
+
+        const mealIndex = state.meals.findIndex(
+          (m) => m.idMeal === meal.idMeal
+        );
+        if (mealIndex !== -1) {
+          state.meals[mealIndex] = meal;
+        }
+
         localStorage.setItem("editedMeals", JSON.stringify(state.editedMeals));
       }
     },
@@ -108,8 +108,21 @@ const mealsSlice = createSlice({
           JSON.stringify(state.removedMeals)
         );
       }
+
       state.likedMeals = state.likedMeals.filter((id) => id !== action.payload);
       localStorage.setItem("likedMeals", JSON.stringify(state.likedMeals));
+
+      state.editedMeals = state.editedMeals.filter(
+        (meal) => meal.idMeal !== action.payload
+      );
+      localStorage.setItem("editedMeals", JSON.stringify(state.editedMeals));
+
+      state.meals = state.meals.filter(
+        (meal) => meal.idMeal !== action.payload
+      );
+      state.userMeals = state.userMeals.filter(
+        (meal) => meal.idMeal !== action.payload
+      );
     },
 
     restoreMeal: (state, action: PayloadAction<string>) => {
@@ -132,8 +145,7 @@ const mealsSlice = createSlice({
 export const {
   setMeals,
   addUserMeal,
-  updateUserMeal,
-  updateMeal, // Экспортируем новый action
+  updateMeal,
   toggleLike,
   removeMeal,
   restoreMeal,

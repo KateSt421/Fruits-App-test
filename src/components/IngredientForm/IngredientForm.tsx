@@ -1,4 +1,3 @@
-// components/IngredientForm/IngredientForm.tsx
 import React from "react";
 import type { FieldError, FieldErrorsImpl, Merge } from "react-hook-form";
 import styles from "./IngredientForm.module.css";
@@ -42,7 +41,6 @@ export const IngredientForm: React.FC<IngredientFormProps> = ({
   onRemoveIngredient,
   onIngredientChange,
 }) => {
-  // Вспомогательные функции для работы с ошибками
   const getIngredientError = (index: number): IngredientError | undefined => {
     if (errors && Array.isArray(errors)) {
       return errors[index] as IngredientError | undefined;

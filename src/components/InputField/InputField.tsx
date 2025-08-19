@@ -1,4 +1,3 @@
-// components/InputField/InputField.tsx
 import React from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 import styles from "./InputField.module.css";

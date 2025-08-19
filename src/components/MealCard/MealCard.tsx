@@ -58,6 +58,12 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
     []
   );
 
+  const isEdited =
+    !meal.idMeal.startsWith("user-") &&
+    (meal.strMeal !== meal.strMeal ||
+      meal.strCategory !== meal.strCategory ||
+      meal.strArea !== meal.strArea);
+
   return (
     <>
       <article className={styles.card} onClick={handleCardClick}>
@@ -69,6 +75,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
             loading="lazy"
             onError={handleImageError}
           />
+          {isEdited && <div className={styles.editedBadge}>Edited</div>}
         </div>
 
         <div className={styles.content}>
@@ -76,6 +83,7 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
             {meal.strMeal}
           </h3>
           <p className={styles.category}>{meal.strCategory}</p>
+          {meal.strArea && <p className={styles.cuisine}>{meal.strArea}</p>}
 
           <div className={styles.actions}>
             <button
@@ -90,7 +98,6 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
             </button>
 
             <div className={styles.actionButtons}>
-              {/* Кнопка редактирования показывается для ВСЕХ блюд */}
               <button
                 className={styles.editButton}
                 onClick={handleEditClick}

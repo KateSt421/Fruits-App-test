@@ -13,7 +13,6 @@ const EditProductPage: React.FC = () => {
   const meals = useAppSelector((state) => state.meals.meals);
   const editedMeals = useAppSelector((state) => state.meals.editedMeals);
 
-  // Ищем блюдо во всех источниках
   const mealToEdit =
     userMeals.find((meal) => meal.idMeal === id) ||
     editedMeals.find((meal) => meal.idMeal === id) ||

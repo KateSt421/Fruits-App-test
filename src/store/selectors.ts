@@ -8,7 +8,6 @@ export const selectAllMeals = createSelector(
     (state: RootState) => state.meals.editedMeals,
   ],
   (meals, userMeals, editedMeals) => {
-    // Объединяем все блюда, приоритет у editedMeals
     const allMeals = [...meals, ...userMeals];
     const editedMealsMap = new Map(
       editedMeals.map((meal) => [meal.idMeal, meal])
