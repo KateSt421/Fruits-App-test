@@ -9,7 +9,6 @@ export interface Meal {
   strInstructions: string;
   strTags?: string;
   strYoutube?: string;
-  // Динамические свойства для ингредиентов и мер
   strIngredient1?: string;
   strIngredient2?: string;
   strIngredient3?: string;

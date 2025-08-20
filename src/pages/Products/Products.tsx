@@ -77,12 +77,10 @@ const ProductsPage: React.FC = () => {
   const allCategories = React.useMemo(() => {
     const categorySet = new Set<string>();
 
-    // Добавляем категории из API
     if (categories) {
       categories.forEach((cat) => categorySet.add(cat.strCategory));
     }
 
-    // Добавляем категории из существующих блюд
     [...meals, ...userMeals].forEach((meal) => {
       if (meal.strCategory) {
         categorySet.add(meal.strCategory);
