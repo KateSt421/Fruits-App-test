@@ -52,3 +52,10 @@ export interface Meal {
 export type UserMeal = Meal & {
   isUserCreated?: boolean;
 };
+
+export interface Category {
+  idCategory: string;
+  strCategory: string;
+  strCategoryThumb: string;
+  strCategoryDescription: string;
+}

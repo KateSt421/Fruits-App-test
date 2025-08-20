@@ -1,24 +1,71 @@
 import React, { useState, useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../store/store";
-import { useGetPopularMealsQuery } from "../../api/mealsApi";
+import {
+  useGetPopularMealsQuery,
+  useGetCategoriesQuery,
+} from "../../api/mealsApi";
 import {
   setMeals,
   setFilter,
   setSearchQuery,
+  setCategoryFilter,
+  setAreaFilter,
+  clearAllFilters,
 } from "../../store/slices/mealsSlice";
 import MealCard from "../../components/MealCard/MealCard";
 import styles from "./Products.module.css";
 import { Link } from "react-router-dom";
 import Pagination from "../../components/Pagination/Pagination";
-import { Heart, Search } from "lucide-react";
+import { Heart, Search, Filter, X } from "lucide-react";
+
+const COUNTRIES = [
+  "all",
+  "American",
+  "British",
+  "Canadian",
+  "Chinese",
+  "Croatian",
+  "Dutch",
+  "Egyptian",
+  "French",
+  "Greek",
+  "Indian",
+  "Irish",
+  "Italian",
+  "Jamaican",
+  "Japanese",
+  "Kenyan",
+  "Malaysian",
+  "Mexican",
+  "Moroccan",
+  "Polish",
+  "Portuguese",
+  "Russian",
+  "Spanish",
+  "Thai",
+  "Tunisian",
+  "Turkish",
+  "Unknown",
+  "Vietnamese",
+];
 
 const ProductsPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data: apiMeals, isLoading, error } = useGetPopularMealsQuery();
-  const { meals, userMeals, likedMeals, filter, searchQuery, removedMeals } =
-    useAppSelector((state) => state.meals);
+  const { data: categories } = useGetCategoriesQuery();
+  const {
+    meals,
+    userMeals,
+    likedMeals,
+    filter,
+    searchQuery,
+    removedMeals,
+    categoryFilter,
+    areaFilter,
+  } = useAppSelector((state) => state.meals);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
   const itemsPerPage = 12;
 
   useEffect(() => {
@@ -27,22 +74,69 @@ const ProductsPage: React.FC = () => {
     }
   }, [apiMeals, dispatch]);
 
+  const allCategories = React.useMemo(() => {
+    const categorySet = new Set<string>();
+
+    // Добавляем категории из API
+    if (categories) {
+      categories.forEach((cat) => categorySet.add(cat.strCategory));
+    }
+
+    // Добавляем категории из существующих блюд
+    [...meals, ...userMeals].forEach((meal) => {
+      if (meal.strCategory) {
+        categorySet.add(meal.strCategory);
+      }
+    });
+
+    return ["all", ...Array.from(categorySet).sort()];
+  }, [meals, userMeals, categories]);
+
   const allMeals = [...meals, ...userMeals];
 
   const filteredMeals = allMeals.filter((meal) => {
     const isRemoved = removedMeals.includes(meal.idMeal);
     const matchesFilter = filter === "all" || likedMeals.includes(meal.idMeal);
-
+    const matchesCategory =
+      categoryFilter === "all" || meal.strCategory === categoryFilter;
+    const matchesArea = areaFilter === "all" || meal.strArea === areaFilter;
     const matchesSearch =
       searchQuery.length < 3 ||
       meal.strMeal.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      meal.strCategory.toLowerCase().includes(searchQuery.toLowerCase());
+      meal.strCategory?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      meal.strArea?.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return !isRemoved && matchesFilter && matchesSearch;
+    return (
+      !isRemoved &&
+      matchesFilter &&
+      matchesSearch &&
+      matchesCategory &&
+      matchesArea
+    );
   });
 
   const handleFilterChange = (newFilter: "all" | "liked") => {
     dispatch(setFilter(newFilter));
+    setCurrentPage(1);
+  };
+
+  const handleCategoryChange = (category: string) => {
+    dispatch(setCategoryFilter(category));
+    setCurrentPage(1);
+  };
+
+  const handleAreaChange = (area: string) => {
+    dispatch(setAreaFilter(area));
+    setCurrentPage(1);
+  };
+
+  const handleClearFilters = () => {
+    dispatch(clearAllFilters());
+    setCurrentPage(1);
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchQuery(e.target.value));
     setCurrentPage(1);
   };
 
@@ -51,10 +145,11 @@ const ProductsPage: React.FC = () => {
   const currentMeals = filteredMeals.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredMeals.length / itemsPerPage);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearchQuery(e.target.value));
-    setCurrentPage(1);
-  };
+  const hasActiveFilters =
+    categoryFilter !== "all" ||
+    areaFilter !== "all" ||
+    searchQuery.length >= 3 ||
+    filter !== "all";
 
   if (isLoading) {
     return <div className={styles.loading}>Loading meals...</div>;
@@ -76,41 +171,111 @@ const ProductsPage: React.FC = () => {
           <Search className={styles.searchIcon} />
           <input
             type="text"
-            placeholder="Search meals..."
+            placeholder="Search meals by name, category or cuisine..."
             value={searchQuery}
             onChange={handleSearchChange}
             className={styles.searchInput}
           />
         </div>
 
-        <div className={styles.filterButtons}>
-          <button
-            onClick={() => handleFilterChange("all")}
-            className={filter === "all" ? styles.active : ""}
-          >
-            All Meals
-          </button>
-          <button
-            onClick={() => handleFilterChange("liked")}
-            className={filter === "liked" ? styles.active : ""}
-          >
-            <Heart size={16} /> Liked
-          </button>
-        </div>
+        <div className={styles.mainControls}>
+          <div className={styles.filterButtons}>
+            <button
+              onClick={() => handleFilterChange("all")}
+              className={filter === "all" ? styles.active : ""}
+            >
+              All Meals
+            </button>
+            <button
+              onClick={() => handleFilterChange("liked")}
+              className={filter === "liked" ? styles.active : ""}
+            >
+              <Heart size={16} /> Liked
+            </button>
+          </div>
 
-        <Link to="/create-product" className={styles.addButton}>
-          Add New Meal
-        </Link>
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={styles.filterToggle}
+          >
+            <Filter size={16} /> Filters
+          </button>
+
+          <Link to="/create-product" className={styles.addButton}>
+            Add New Meal
+          </Link>
+        </div>
       </div>
+
+      {showFilters && (
+        <div className={styles.filtersPanel}>
+          <div className={styles.filterGroup}>
+            <label htmlFor="category-filter">Category:</label>
+            <select
+              id="category-filter"
+              value={categoryFilter}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              className={styles.filterSelect}
+            >
+              {allCategories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className={styles.filterGroup}>
+            <label htmlFor="area-filter">Cuisine:</label>
+            <select
+              id="area-filter"
+              value={areaFilter}
+              onChange={(e) => handleAreaChange(e.target.value)}
+              className={styles.filterSelect}
+            >
+              {COUNTRIES.map((country) => (
+                <option key={country} value={country}>
+                  {country}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {hasActiveFilters && (
+            <button
+              onClick={handleClearFilters}
+              className={styles.clearFilters}
+            >
+              <X size={14} /> Clear All
+            </button>
+          )}
+        </div>
+      )}
+
+      {hasActiveFilters && (
+        <div className={styles.activeFilters}>
+          <span>Active filters: </span>
+          {filter !== "all" && (
+            <span className={styles.filterTag}>Liked only</span>
+          )}
+          {categoryFilter !== "all" && (
+            <span className={styles.filterTag}>Category: {categoryFilter}</span>
+          )}
+          {areaFilter !== "all" && (
+            <span className={styles.filterTag}>Cuisine: {areaFilter}</span>
+          )}
+          {searchQuery.length >= 3 && (
+            <span className={styles.filterTag}>Search: "{searchQuery}"</span>
+          )}
+        </div>
+      )}
 
       {currentMeals.length === 0 ? (
         <div className={styles.noResults}>
           No meals found.{" "}
-          {filter === "liked"
-            ? "Try liking some meals first."
-            : searchQuery.length < 3
-            ? "Enter at least 3 characters to search."
-            : "Try a different search."}
+          {hasActiveFilters
+            ? "Try adjusting your filters or search term."
+            : "Try adding some meals first."}
         </div>
       ) : (
         <>

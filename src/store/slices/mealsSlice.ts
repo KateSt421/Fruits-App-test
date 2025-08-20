@@ -9,6 +9,8 @@ interface MealsState {
   searchQuery: string;
   removedMeals: string[];
   editedMeals: Meal[];
+  categoryFilter: string;
+  areaFilter: string;
 }
 
 const loadFromLocalStorage = <T>(key: string, defaultValue: T): T => {
@@ -28,6 +30,8 @@ const initialState: MealsState = {
   searchQuery: "",
   removedMeals: loadFromLocalStorage<string[]>("removedMeals", []),
   editedMeals: loadFromLocalStorage<Meal[]>("editedMeals", []),
+  categoryFilter: "all",
+  areaFilter: "all",
 };
 
 const mealsSlice = createSlice({
@@ -45,6 +49,14 @@ const mealsSlice = createSlice({
         );
         return editedMeal || apiMeal;
       });
+    },
+
+    setCategoryFilter: (state, action: PayloadAction<string>) => {
+      state.categoryFilter = action.payload;
+    },
+
+    setAreaFilter: (state, action: PayloadAction<string>) => {
+      state.areaFilter = action.payload;
     },
 
     addUserMeal: (state, action: PayloadAction<Omit<Meal, "idMeal">>) => {
@@ -139,11 +151,20 @@ const mealsSlice = createSlice({
     setSearchQuery: (state, action: PayloadAction<string>) => {
       state.searchQuery = action.payload;
     },
+
+    clearAllFilters: (state) => {
+      state.categoryFilter = "all";
+      state.areaFilter = "all";
+      state.searchQuery = "";
+      state.filter = "all";
+    },
   },
 });
 
 export const {
   setMeals,
+  setCategoryFilter,
+  setAreaFilter,
   addUserMeal,
   updateMeal,
   toggleLike,
@@ -151,6 +172,7 @@ export const {
   restoreMeal,
   setFilter,
   setSearchQuery,
+  clearAllFilters,
 } = mealsSlice.actions;
 
 export default mealsSlice.reducer;
