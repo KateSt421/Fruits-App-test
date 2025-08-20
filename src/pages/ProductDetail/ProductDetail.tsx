@@ -71,7 +71,6 @@ const ProductDetailPage: React.FC = () => {
               e.currentTarget.src = "/default-meal.jpg";
             }}
           />
-          {/* Бейдж "Edited" полностью убран */}
         </div>
 
         <div className={styles.details}>

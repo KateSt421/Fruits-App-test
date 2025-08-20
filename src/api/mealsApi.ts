@@ -68,7 +68,9 @@ export const mealsApi = createApi({
     getPopularMeals: builder.query<Meal[], void>({
       query: () => "search.php?s=",
       transformResponse: (response: { meals: Meal[] | null }) =>
-        response.meals || [],
+        (response.meals || []).filter(
+          (meal) => meal.strMealThumb && meal.strMealThumb.trim() !== ""
+        ),
     }),
     getMealById: builder.query<Meal, string>({
       query: (id) => `lookup.php?i=${id}`,
@@ -77,7 +79,9 @@ export const mealsApi = createApi({
     searchMeals: builder.query<Meal[], string>({
       query: (query) => `search.php?s=${query}`,
       transformResponse: (response: { meals: Meal[] | null }) =>
-        response.meals || [],
+        (response.meals || []).filter(
+          (meal) => meal.strMealThumb && meal.strMealThumb.trim() !== ""
+        ),
     }),
     getCategories: builder.query<Category[], void>({
       query: () => "categories.php",
@@ -87,12 +91,16 @@ export const mealsApi = createApi({
     getMealsByCategory: builder.query<Meal[], string>({
       query: (category) => `filter.php?c=${category}`,
       transformResponse: (response: { meals: Meal[] | null }) =>
-        response.meals || [],
+        (response.meals || []).filter(
+          (meal) => meal.strMealThumb && meal.strMealThumb.trim() !== ""
+        ),
     }),
     getMealsByArea: builder.query<Meal[], string>({
       query: (area) => `filter.php?a=${area}`,
       transformResponse: (response: { meals: Meal[] | null }) =>
-        response.meals || [],
+        (response.meals || []).filter(
+          (meal) => meal.strMealThumb && meal.strMealThumb.trim() !== ""
+        ),
     }),
   }),
 });

@@ -1,6 +1,7 @@
-import React, { type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import styles from './Layout.module.css';
+import React, { type ReactNode } from "react";
+import Navbar from "../Navbar/Navbar";
+import { Github } from "lucide-react";
+import styles from "./Layout.module.css";
 
 interface LayoutProps {
   children: ReactNode;
@@ -9,32 +10,27 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <div className={styles.logo}>
-          <Link to="/">Meals App</Link>
-        </div>
+      <Navbar />
 
-        <nav className={styles.nav}>
-          <Link to="/products" className={styles.navLink}>
-            All Meals
-          </Link>
-          <Link to="/create-product" className={styles.navLink}>
-            Add New Meal
-          </Link>
-        </nav>
-
-        <div className={styles.apiIndicator}>
-          <span className={styles.apiText}>Public API is used</span>
-          <div className={styles.apiStatus}></div>
-        </div>
-      </header>
-
-      <main className={styles.main}>
-        {children}
-      </main>
+      <main className={styles.main}>{children}</main>
 
       <footer className={styles.footer}>
-        <p>Meals App &bull; Developed by Katsiaryna Stankevich &copy; {new Date().getFullYear()}</p>
+        <div className={styles.footerContent}>
+          <span>Meals App</span>
+          <span className={styles.dot}>&bull;</span>
+          <span>Developed by Katsiaryna Stankevich</span>
+          <span className={styles.dot}>&bull;</span>
+          <a
+            href="https://github.com/KateSt421"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.githubLink}
+          >
+            <Github size={20} />
+          </a>
+          <span className={styles.dot}>&bull;</span>
+          <span>&copy; {new Date().getFullYear()}</span>
+        </div>
       </footer>
     </div>
   );

@@ -71,6 +71,19 @@
   animation: pulse 2s infinite;
 }
 
+.apiLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: opacity 0.2s ease;
+}
+
+.apiLink:hover {
+  opacity: 0.8;
+}
+
 @keyframes pulse {
   0% {
     transform: scale(0.95);
