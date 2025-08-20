@@ -49,8 +49,6 @@ const ProductDetailPage: React.FC = () => {
     ? meal.strInstructions.split("\n")
     : ["No instructions available"];
 
-  const isEdited = !meal.idMeal.startsWith("user-") && editedMeal;
-
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -73,7 +71,7 @@ const ProductDetailPage: React.FC = () => {
               e.currentTarget.src = "/default-meal.jpg";
             }}
           />
-          {isEdited && <div className={styles.editedBadge}>Edited</div>}
+          {/* Бейдж "Edited" полностью убран */}
         </div>
 
         <div className={styles.details}>
