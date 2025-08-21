@@ -21,7 +21,14 @@
       const newUrl = new URL(window.location);
       newUrl.searchParams.delete('redirect');
       window.history.replaceState({}, '', newUrl);
-      window.location.hash = redirectPath;
+
+      let targetPath = redirectPath;
+
+      if (!targetPath.startsWith('/Meals-App-test/')) {
+        targetPath = '/Meals-App-test' + targetPath;
+      }
+
+      window.location.href = targetPath;
     }
   </script>
 
