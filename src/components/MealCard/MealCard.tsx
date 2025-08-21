@@ -17,8 +17,14 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
   const dispatch = useAppDispatch();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
+  const getCurrentPage = () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get("page") || "1";
+  };
+
   const handleCardClick = useCallback(() => {
-    navigate(`/products/${meal.idMeal}`);
+    const currentPage = getCurrentPage();
+    navigate(`/products/${meal.idMeal}?page=${currentPage}`);
   }, [navigate, meal.idMeal]);
 
   const handleLikeClick = useCallback(
@@ -32,7 +38,8 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
   const handleEditClick = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
-      navigate(`/edit-product/${meal.idMeal}`);
+      const currentPage = getCurrentPage();
+      navigate(`/edit-product/${meal.idMeal}?page=${currentPage}`);
     },
     [navigate, meal.idMeal]
   );

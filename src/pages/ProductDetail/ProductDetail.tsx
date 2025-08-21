@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { useAppSelector } from "../../store/store";
 import { useGetMealByIdQuery } from "../../api/mealsApi";
 import styles from "./ProductDetail.module.css";
@@ -7,6 +7,9 @@ import { ArrowLeft, Edit } from "lucide-react";
 
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get("page") || "1";
+
   const { data: apiMeal, isLoading } = useGetMealByIdQuery(id || "", {
     skip: !id,
   });
@@ -29,7 +32,7 @@ const ProductDetailPage: React.FC = () => {
     return (
       <div className={styles.notFound}>
         <h2>Meal not found</h2>
-        <Link to="/products" className={styles.backLink}>
+        <Link to={`/products?page=${page}`} className={styles.backLink}>
           <ArrowLeft size={16} /> Back to all meals
         </Link>
       </div>
@@ -52,17 +55,19 @@ const ProductDetailPage: React.FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <Link to="/products" className={styles.backLink}>
+        <Link to={`/products?page=${page}`} className={styles.backLink}>
           <ArrowLeft size={16} /> Back to all meals
         </Link>
 
-        <Link to={`/edit-product/${meal.idMeal}`} className={styles.editLink}>
+        <Link
+          to={`/edit-product/${meal.idMeal}?page=${page}`}
+          className={styles.editLink}
+        >
           <Edit size={16} /> Edit
         </Link>
       </div>
 
       <div className={styles.detailCard}>
-        {/* Левая колонка: фото и ингредиенты */}
         <div className={styles.leftColumn}>
           <div className={styles.imageContainer}>
             <img
@@ -94,7 +99,6 @@ const ProductDetailPage: React.FC = () => {
           )}
         </div>
 
-        {/* Правая колонка: детали, инструкции и видео */}
         <div className={styles.rightColumn}>
           <div>
             <h1 className={styles.name}>{meal.strMeal}</h1>

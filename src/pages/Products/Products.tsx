@@ -14,7 +14,7 @@ import {
 } from "../../store/slices/mealsSlice";
 import MealCard from "../../components/MealCard/MealCard";
 import styles from "./Products.module.css";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../../components/Pagination/Pagination";
 import { Heart, Search, Filter, X } from "lucide-react";
 
@@ -64,7 +64,9 @@ const ProductsPage: React.FC = () => {
     areaFilter,
   } = useAppSelector((state) => state.meals);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageFromUrl = parseInt(searchParams.get("page") || "1");
+  const [currentPage, setCurrentPage] = useState(pageFromUrl);
   const [showFilters, setShowFilters] = useState(false);
   const itemsPerPage = 12;
 
@@ -73,6 +75,12 @@ const ProductsPage: React.FC = () => {
       dispatch(setMeals(apiMeals));
     }
   }, [apiMeals, dispatch]);
+
+  useEffect(() => {
+    const newSearchParams = new URLSearchParams(searchParams);
+    newSearchParams.set("page", currentPage.toString());
+    setSearchParams(newSearchParams);
+  }, [currentPage, searchParams, setSearchParams]);
 
   const allCategories = React.useMemo(() => {
     const categorySet = new Set<string>();
@@ -136,6 +144,11 @@ const ProductsPage: React.FC = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setSearchQuery(e.target.value));
     setCurrentPage(1);
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -291,7 +304,7 @@ const ProductsPage: React.FC = () => {
             <Pagination
               currentPage={currentPage}
               totalPages={totalPages}
-              onPageChange={setCurrentPage}
+              onPageChange={handlePageChange}
             />
           )}
         </>
