@@ -62,29 +62,21 @@ const ProductDetailPage: React.FC = () => {
       </div>
 
       <div className={styles.detailCard}>
-        <div className={styles.imageContainer}>
-          <img
-            src={meal.strMealThumb}
-            alt={meal.strMeal}
-            className={styles.image}
-            onError={(e) => {
-              e.currentTarget.src = "/default-meal.jpg";
-            }}
-          />
-        </div>
-
-        <div className={styles.details}>
-          <h1 className={styles.name}>{meal.strMeal}</h1>
-          <div className={styles.meta}>
-            <span className={styles.category}>{meal.strCategory}</span>
-            <span className={styles.area}>{meal.strArea}</span>
-            {meal.strTags && (
-              <span className={styles.tags}>{meal.strTags}</span>
-            )}
+        {/* Левая колонка: фото и ингредиенты */}
+        <div className={styles.leftColumn}>
+          <div className={styles.imageContainer}>
+            <img
+              src={meal.strMealThumb}
+              alt={meal.strMeal}
+              className={styles.image}
+              onError={(e) => {
+                e.currentTarget.src = "/default-meal.jpg";
+              }}
+            />
           </div>
 
           {ingredients.length > 0 && (
-            <div className={styles.section}>
+            <div className={styles.ingredientsSection}>
               <h3>Ingredients</h3>
               <ul className={styles.ingredientsList}>
                 {ingredients.map((item, index) => (
@@ -100,13 +92,30 @@ const ProductDetailPage: React.FC = () => {
               </ul>
             </div>
           )}
+        </div>
+
+        {/* Правая колонка: детали, инструкции и видео */}
+        <div className={styles.rightColumn}>
+          <div>
+            <h1 className={styles.name}>{meal.strMeal}</h1>
+            <div className={styles.meta}>
+              <span className={styles.category}>{meal.strCategory}</span>
+              <span className={styles.area}>{meal.strArea}</span>
+              {meal.strTags && (
+                <span className={styles.tags}>{meal.strTags}</span>
+              )}
+            </div>
+          </div>
 
           <div className={styles.section}>
             <h3>Instructions</h3>
             <div className={styles.instructions}>
-              {instructions.map(
-                (paragraph, i) => paragraph.trim() && <p key={i}>{paragraph}</p>
-              )}
+              <div className={styles.instructionsContent}>
+                {instructions.map(
+                  (paragraph, i) =>
+                    paragraph.trim() && <p key={i}>{paragraph}</p>
+                )}
+              </div>
             </div>
           </div>
 

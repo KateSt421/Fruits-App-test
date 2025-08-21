@@ -32,99 +32,6 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #4299e1;
-  text-decoration: none;
-}
-
-.editLink:hover {
-  text-decoration: underline;
-}
-
-.detailCard {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 40px;
-  background: white;
-  border-radius: 8px;
-  padding: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.imageContainer {
-  border-radius: 8px;
-  overflow: hidden;
-  height: 400px;
-}
-
-.image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.name {
-  font-size: 2rem;
-  margin-bottom: 10px;
-  color: #2d3748;
-}
-
-.meta {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
-  color: #718096;
-}
-
-.family,
-.genus,
-.order {
-  background: #f7fafc;
-  padding: 5px 10px;
-  border-radius: 4px;
-}
-
-.nutritionGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.nutritionItem {
-  background: #f7fafc;
-  padding: 15px;
-  border-radius: 8px;
-}
-
-.nutritionLabel {
-  display: block;
-  font-size: 0.9rem;
-  color: #718096;
-  margin-bottom: 5px;
-}
-
-.nutritionValue {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #2d3748;
-}
-
-.loading {
-  text-align: center;
-  padding: 40px;
-  color: #718096;
-}
-
-.notFound {
-  text-align: center;
-  padding: 40px;
-}
-
-.editLink {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   padding: 10px 16px;
   background-color: #ffffff;
   color: #4299e1;
@@ -152,32 +59,246 @@
   height: 16px;
 }
 
-.editedBadge {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: #4299e1;
-  color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  z-index: 10;
+.detailCard {
+  display: grid;
+  grid-template-columns: 30% 65%;
+  gap: 5%;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  align-items: start;
 }
 
-@media (max-width: 768px) {
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.imageContainer {
+  border-radius: 8px;
+  overflow: hidden;
+  height: 250px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.ingredientsSection {
+  margin-top: 0;
+  flex: 1;
+}
+
+.rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.name {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  color: #2d3748;
+  line-height: 1.3;
+}
+
+.meta {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.category,
+.area,
+.tags {
+  background: #f7fafc;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.section {
+  margin-bottom: 16px;
+}
+
+.section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.ingredientsList {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ingredientItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #f7fafc;
+  border-radius: 6px;
+  gap: 10px;
+}
+
+.ingredientName {
+  flex: 1;
+  font-weight: 500;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+.ingredientMeasure {
+  color: #718096;
+  font-size: 0.85rem;
+  min-width: 60px;
+  text-align: right;
+}
+
+.instructions {
+  line-height: 1.5;
+  color: #4a5568;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.instructions p {
+  margin-bottom: 10px;
+}
+
+.instructionsContent {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.instructionsContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.instructionsContent::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.instructionsContent::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.instructionsContent::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.youtubeLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background-color: #e53e3e;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+  font-size: 0.9rem;
+}
+
+.youtubeLink:hover {
+  background-color: #c53030;
+  text-decoration: none;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #718096;
+}
+
+.notFound {
+  text-align: center;
+  padding: 40px;
+}
+
+@media (max-width: 968px) {
   .detailCard {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
 
   .imageContainer {
-    height: 300px;
+    height: 280px;
+  }
+
+  .name {
+    font-size: 1.4rem;
+  }
+
+  .instructionsContent {
+    max-height: none;
+    overflow-y: visible;
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .backLink,
   .editLink {
-    padding: 8px 12px;
+    justify-content: center;
+  }
+
+  .detailCard {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .imageContainer {
+    height: 220px;
+  }
+
+  .meta {
+    gap: 8px;
+  }
+
+  .category,
+  .area,
+  .tags {
     font-size: 0.8rem;
+    padding: 4px 8px;
+  }
+
+  .ingredientItem {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .ingredientMeasure {
+    text-align: left;
+    font-size: 0.85rem;
   }
 }
