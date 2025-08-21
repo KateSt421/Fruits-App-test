@@ -5,13 +5,27 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="./assets/restaurant_cooking_meal_food-BkUowBEY.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meals App</title>
+  <title>Meal App</title>
   <script type="module" crossorigin src="./assets/index-DJInJFUV.js"></script>
   <link rel="stylesheet" crossorigin href="./assets/index-D3ylMO2_.css">
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root"></div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectPath = urlParams.get('redirect');
+
+    if (redirectPath) {
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.delete('redirect');
+      window.history.replaceState({}, '', newUrl);
+
+      window.location.href = redirectPath;
+    }
+  </script>
+
 </body>
 
 </html>
