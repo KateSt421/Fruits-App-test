@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://katest421.github.io/Meals-App-test/products",
+  "homepage": "https://katest421.github.io/Meals-App-test/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
