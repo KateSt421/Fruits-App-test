@@ -11,7 +11,7 @@ const NotFoundPage: React.FC = () => {
           <ChefHat size={64} className={styles.icon} />
         </div>
 
-        <h1 className={styles.title}>Food not found</h1>
+        <h1 className={styles.title}>Meals not found</h1>
 
         <p className={styles.message}>
           Oops! The meal you're looking for doesn't exist or has been removed.

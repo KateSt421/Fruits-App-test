@@ -12,21 +12,31 @@
   <div id="root"></div>
 
   <script>
+
     const urlParams = new URLSearchParams(window.location.search);
     const redirectPath = urlParams.get('redirect');
 
     if (redirectPath) {
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.delete('redirect');
-      window.history.replaceState({}, '', newUrl);
 
-      let targetPath = redirectPath;
+      const isRedirecting = sessionStorage.getItem('redirecting');
 
-      if (!targetPath.startsWith('/Meals-App-test/')) {
-        targetPath = '/Meals-App-test' + targetPath;
+      if (!isRedirecting) {
+        sessionStorage.setItem('redirecting', 'true');
+
+        const newUrl = new URL(window.location);
+        newUrl.searchParams.delete('redirect');
+        window.history.replaceState({}, '', newUrl);
+
+        let cleanPath = redirectPath;
+        if (cleanPath.startsWith('/Meals-App-test')) {
+          cleanPath = cleanPath.substring('/Meals-App-test'.length);
+        }
+
+        window.location.hash = cleanPath;
+        setTimeout(() => {
+          sessionStorage.removeItem('redirecting');
+        }, 1000);
       }
-
-      window.location.href = targetPath;
     }
   </script>
 
