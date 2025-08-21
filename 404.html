@@ -5,22 +5,47 @@
   <meta charset="utf-8">
   <title>Redirecting...</title>
   <script>
-    const path = window.location.pathname;
-    const search = window.location.search;
-    const hash = window.location.hash;
+    if (!sessionStorage.getItem('redirecting')) {
+      sessionStorage.setItem('redirecting', 'true');
 
-    const isGitHubPages = window.location.hostname.includes('github.io');
-    const basePath = isGitHubPages ? '/Meals-App-test' : '';
+      const path = window.location.pathname;
+      const search = window.location.search;
+      const hash = window.location.hash;
 
-    window.location.href = basePath + '/index.html?redirect=' +
-      encodeURIComponent(path + search + hash);
+      let basePath = '';
+      if (window.location.hostname.includes('github.io')) {
+        basePath = '/Meals-App-test';
+
+        let redirectPath = path + search + hash;
+        if (redirectPath.startsWith(basePath)) {
+          redirectPath = redirectPath.substring(basePath.length);
+        }
+
+        window.location.href = basePath + '/index.html?redirect=' + encodeURIComponent(redirectPath);
+      }
+
+      setTimeout(() => {
+        sessionStorage.removeItem('redirecting');
+      }, 1000);
+    } else {
+
+      document.addEventListener('DOMContentLoaded', function () {
+        document.body.innerHTML = `
+                    <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+                        <h1>Redirect Loop Detected</h1>
+                        <p>Please <a href="/Meals-App-test/">click here</a> to go to the homepage.</p>
+                    </div>
+                `;
+        sessionStorage.removeItem('redirecting');
+      });
+    }
   </script>
 </head>
 
 <body>
   <noscript>
     <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, <a href="/">click here</a>.</p>
+    <p>If you are not redirected automatically, <a href="/Meals-App-test/">click here</a>.</p>
   </noscript>
 </body>
 
