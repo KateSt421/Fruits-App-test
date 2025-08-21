@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Heart, Trash2, Edit } from "lucide-react";
+import { Heart, Trash2, Edit, ArrowRight } from "lucide-react";
 import { useAppDispatch } from "../../store/store";
 import { toggleLike, removeMeal } from "../../store/slices/mealsSlice";
 import type { Meal } from "../../api/types";
@@ -79,11 +79,20 @@ const MealCard: React.FC<MealCardProps> = ({ meal, isLiked }) => {
         </div>
 
         <div className={styles.content}>
-          <h3 className={styles.title} title={meal.strMeal}>
-            {meal.strMeal}
-          </h3>
-          <p className={styles.category}>{meal.strCategory}</p>
-          {meal.strArea && <p className={styles.cuisine}>{meal.strArea}</p>}
+          <div className={styles.headerRow}>
+            <h3 className={styles.title} title={meal.strMeal}>
+              {meal.strMeal}
+            </h3>
+            <div className={styles.recipeIndicator}>
+              <span>Recipe inside</span>
+              <ArrowRight size={14} className={styles.arrowIcon} />
+            </div>
+          </div>
+
+          <div className={styles.mealInfo}>
+            <p className={styles.category}>{meal.strCategory}</p>
+            {meal.strArea && <p className={styles.cuisine}>{meal.strArea}</p>}
+          </div>
 
           <div className={styles.actions}>
             <button
