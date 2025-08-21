@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" type="image/svg+xml" href="./src/assets/svg/restaurant_cooking_meal_food.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meal App</title>
+  <title>Meals App</title>
 </head>
 
 <body>
@@ -20,7 +20,13 @@
       newUrl.searchParams.delete('redirect');
       window.history.replaceState({}, '', newUrl);
 
-      window.location.href = redirectPath;
+      let targetPath = redirectPath;
+
+      if (!targetPath.startsWith('/Meals-App-test/')) {
+        targetPath = '/Meals-App-test' + targetPath;
+      }
+
+      window.location.href = targetPath;
     }
   </script>
 
