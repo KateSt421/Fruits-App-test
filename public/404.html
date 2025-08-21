@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    const path = window.location.pathname;
+    const search = window.location.search;
+    const hash = window.location.hash;
+
+    const isGitHubPages = window.location.hostname.includes('github.io');
+    const basePath = isGitHubPages ? '/Meals-App-test' : '';
+
+    window.location.href = basePath + '/index.html?redirect=' +
+      encodeURIComponent(path + search + hash);
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <h1>Redirecting...</h1>
+    <p>If you are not redirected automatically, <a href="/">click here</a>.</p>
+  </noscript>
+</body>
+
+</html>
