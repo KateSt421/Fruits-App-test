@@ -1,5 +1,10 @@
 import React from "react";
-import { useParams, Link, useSearchParams } from "react-router-dom";
+import {
+  useParams,
+  Link,
+  useSearchParams,
+  useNavigate,
+} from "react-router-dom";
 import { useAppSelector } from "../../store/store";
 import { useGetMealByIdQuery } from "../../api/mealsApi";
 import styles from "./ProductDetail.module.css";
@@ -8,9 +13,14 @@ import { ArrowLeft, Edit } from "lucide-react";
 const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
   const page = searchParams.get("page") || "1";
 
-  const { data: apiMeal, isLoading } = useGetMealByIdQuery(id || "", {
+  const {
+    data: apiMeal,
+    isLoading,
+    error,
+  } = useGetMealByIdQuery(id || "", {
     skip: !id,
   });
 
@@ -24,19 +34,34 @@ const ProductDetailPage: React.FC = () => {
 
   const meal = editedMeal || userMeal || storedMeal || apiMeal;
 
+  // Редирект на страницу 404 если meal не найден
+  React.useEffect(() => {
+    if (!isLoading && !meal && !error) {
+      const timer = setTimeout(() => {
+        navigate("/404", { replace: true });
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoading, meal, error, navigate]);
+
   if (isLoading) {
     return <div className={styles.loading}>Loading meal details...</div>;
   }
 
-  if (!meal) {
+  if (error) {
     return (
       <div className={styles.notFound}>
-        <h2>Meal not found</h2>
+        <h2>Error loading meal</h2>
+        <p>Failed to load meal details. Please try again later.</p>
         <Link to={`/products?page=${page}`} className={styles.backLink}>
           <ArrowLeft size={16} /> Back to all meals
         </Link>
       </div>
     );
+  }
+
+  if (!meal) {
+    return null; // Редирект будет выполнен через useEffect
   }
 
   const ingredients = [];

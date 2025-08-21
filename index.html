@@ -10,26 +10,6 @@
 
 <body>
   <div id="root"></div>
-
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const redirectPath = urlParams.get('redirect');
-
-    if (redirectPath) {
-      const newUrl = new URL(window.location);
-      newUrl.searchParams.delete('redirect');
-      window.history.replaceState({}, '', newUrl);
-
-      let targetPath = redirectPath;
-
-      if (!targetPath.startsWith('/Meals-App-test/')) {
-        targetPath = '/Meals-App-test' + targetPath;
-      }
-
-      window.location.href = targetPath;
-    }
-  </script>
-
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
