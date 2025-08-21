@@ -274,6 +274,8 @@
   .mainControls {
     flex-direction: column;
     align-items: stretch;
+    max-width: 100%;
+    width: 100%;
   }
 
   .filtersPanel {
@@ -284,9 +286,7 @@
     flex-direction: column;
     align-items: flex-start;
   }
-}
 
-@media (max-width: 480px) {
   .filterToggle,
   .clearFilters {
     width: 100%;
