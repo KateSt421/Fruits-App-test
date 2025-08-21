@@ -11,7 +11,20 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root"></div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const redirectPath = urlParams.get('redirect');
+
+    if (redirectPath) {
+      const newUrl = new URL(window.location);
+      newUrl.searchParams.delete('redirect');
+      window.history.replaceState({}, '', newUrl);
+      window.location.hash = redirectPath;
+    }
+  </script>
+
 </body>
 
 </html>
